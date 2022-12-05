@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"composite": true,
+		"declarationMap": false,
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"noImplicitReturns": true,
+		"outDir": "./dist",
+		"sourceMap": false,
+		"strict": true,
+		"target": "ES2015"
+	}
+}
