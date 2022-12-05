@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"allowUmdGlobalAccess": true,
-		"outDir": "../dist/firehose-test",
+		"outDir": "../dist/shared",
 		"rootDir": "."
 	},
 	"extends": "../tsconfig.base.json",
