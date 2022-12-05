@@ -1,3 +1,5 @@
+import * as crypto from 'node:crypto';
+
 import { JSONValue, Loggable, Logger } from './Logger';
 
 class User implements Loggable {
@@ -35,10 +37,20 @@ class User implements Loggable {
 	}
 }
 
-User.logger.context = {
-	serverID: '34y2ro3rof',
-	version: '0.23.0',
-};
+async function main(): Promise<void> {
+	try {
+		User.logger.context = {
+			serverID: '34y2ro3rof',
+			version: '0.23.0',
+		};
+		setInterval((): void => {
+			const user: User = new User(Math.floor(Math.random() * 1000000), crypto.randomUUID());
+			user.doSomething();
+		}, 5000);
+		await new Promise((resolve: (...args: Array<any>) => void): void => void setTimeout(resolve, 86_400_000));
+	} catch (error: Error | unknown) {
+		process.stderr.write(`Error: ${ error instanceof Error ? error.message : String(error) }\n`);
+	}
+}
 
-const user: User = new User(12345, 'steve');
-user.doSomething();
+main();
