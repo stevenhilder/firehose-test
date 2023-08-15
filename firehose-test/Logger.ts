@@ -63,19 +63,20 @@ export class Logger {
 	}
 
 	private log(severity: LogSeverity, message: string, context: Record<string, JSONValue | Loggable> = {}): void {
-		process.stdout.write(JSON.stringify(Object.assign(
-			{
-				_timestamp: (new Date).toISOString(),
-				_message: message,
-				_severity: LogSeverity[severity],
-			},
-			...Object.entries(this._context).map(([ key, value ]: [ string, JSONValue | Loggable ]): JSONValue => ({
-				[key]: this.isLoggable(value) ? value.formatForLogger() : value,
-			})),
-			...Object.entries(context).map(([ key, value ]: [ string, JSONValue | Loggable ]): JSONValue => ({
-				[key]: this.isLoggable(value) ? value.formatForLogger() : value,
-			})),
-		)) + '\n');
+		process.stdout.write(JSON.stringify({
+			timestamp: (new Date).toISOString(),
+			message: message,
+			severity: LogSeverity[severity],
+			context: Object.assign(
+				{},
+				...Object.entries(this._context).map(([ key, value ]: [ string, JSONValue | Loggable ]): JSONValue => ({
+					[key]: this.isLoggable(value) ? value.formatForLogger() : value,
+				})),
+				...Object.entries(context).map(([ key, value ]: [ string, JSONValue | Loggable ]): JSONValue => ({
+					[key]: this.isLoggable(value) ? value.formatForLogger() : value,
+				})),
+			),
+		}) + '\n');
 	}
 
 	public alert(message: string, context: Record<string, JSONValue | Loggable> = {}): void { this.log(LogSeverity.alert, message, context); }
